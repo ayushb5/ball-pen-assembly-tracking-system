@@ -2,7 +2,7 @@
 
 A modern, full-stack Manufacturing Execution System (MES) and Shop-Floor Production Tracking platform tailored for small-to-medium ball pen manufacturing companies.
 
-Built specifically as a **Final Year Engineering Capstone / Major Project & Portfolio Showcase** using **Spring Boot 3 (Java 21)** and **React 18 (Vite + Tailwind CSS)**.
+Built specifically using **Spring Boot 3 (Java 21)** and **React 18 (Vite + Tailwind CSS)**.
 
 ---
 
@@ -152,25 +152,6 @@ npm run dev
 ```
 - Frontend will start on `http://localhost:5173`.
 - Open browser at `http://localhost:5173` and sign in with demo accounts.
-
----
-
-## 🎓 Viva Voce & Project Defense Q&A Guide
-
-### Q1: Why did you build an MES specifically for Ball Pen Manufacturing?
-> **Answer**: High-speed stationery production requires tight synchronization between discrete assembly operations (centrifuging ink refills, tip pressing, cap locking) and batch quality tolerances. Ball pens present a classic multi-stage assembly engineering problem where defective ink or damaged tips propagate downstream unless tracked stage-by-stage.
-
-### Q2: How does the system handle concurrent workstation status updates?
-> **Answer**: In the backend, Spring Data JPA with `@Transactional` ensures atomic persistence when updating workstation allocations and stage milestones. In the database, normalized foreign keys ensure referential integrity, while the REST APIs use DTOs to encapsulate update requests safely.
-
-### Q3: How is JWT authentication implemented?
-> **Answer**: We use standard Spring Security 6 with a stateless filter chain. On login, `JwtTokenProvider` generates a signed HMAC-SHA256 token containing the user's ID, username, and role. The frontend stores this token in localStorage and `authSlice`, attaching it via Axios request interceptor (`Authorization: Bearer <token>`). The `JwtAuthenticationFilter` intercepts each request, validates the signature, and sets the `SecurityContext`.
-
-### Q4: How does order completion propagate through the system?
-> **Answer**: When an order is created, 8 sequential `AssemblyTracking` milestones are automatically generated in `PENDING` state. As operators advance each stage, timestamps and yield notes are logged. When the 8th stage (`FINISHED_GOODS`) completes, the system marks the `ProductionOrder` as `COMPLETED`, records `producedQuantity`, and registers the lot into `finished_goods` inventory.
-
-### Q5: What makes the frontend reactive and responsive?
-> **Answer**: Built on Vite with React 18, utilizing Tailwind CSS responsive breakpoints (`sm`, `md`, `lg`, `xl`). State is cleanly isolated using Redux Toolkit for authentication and custom service layers with Axios for module data. Formik + Yup provides real-time client validation before HTTP calls, and React Hot Toast gives non-blocking feedback.
 
 ---
 
