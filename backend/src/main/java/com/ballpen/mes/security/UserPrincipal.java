@@ -1,0 +1,79 @@
+package com.ballpen.mes.security;
+
+import com.ballpen.mes.entity.User;
+import com.ballpen.mes.enums.UserStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
+
+/**
+ * Spring Security UserDetails adapter wrapping the User entity.
+ */
+@Getter
+@AllArgsConstructor
+@Builder
+public class UserPrincipal implements UserDetails {
+
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
+    private String role;
+    private Collection<? extends GrantedAuthority> authorities;
+    private boolean active;
+
+    public static UserPrincipal create(User user) {
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
+
+        return UserPrincipal.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .password(user.getPasswordHash())
+                .role(user.getRole().name())
+                .authorities(Collections.singletonList(authority))
+                .active(user.getStatus() == UserStatus.ACTIVE)
+                .build();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return active;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
+    }
+}
