@@ -1,0 +1,75 @@
+# ==============================================================================
+# Git Ignore Configuration - Ball Pen Assembly Tracking System
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Node / Frontend Build & Dependencies
+# ------------------------------------------------------------------------------
+**/node_modules/
+node_modules/
+**/dist/
+dist/
+**/dist-ssr/
+*.local
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------------------------------------------------------
+# Java / Maven Backend Build Artifacts
+# ------------------------------------------------------------------------------
+**/target/
+target/
+*.class
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ------------------------------------------------------------------------------
+# IDEs, Editors & Developer Tooling
+# ------------------------------------------------------------------------------
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+
+# ------------------------------------------------------------------------------
+# Operating System Generated Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------------------------
+# Logs & Temporary Files
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.tmp
+*.bak
