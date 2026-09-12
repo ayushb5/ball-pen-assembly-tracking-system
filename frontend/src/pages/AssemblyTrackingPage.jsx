@@ -105,9 +105,13 @@ function AssemblyTrackingPage() {
   const [modalStatus, setModalStatus] = useState('PENDING');
   const [modalStartedTime, setModalStartedTime] = useState('');
   const [modalCompletedTime, setModalCompletedTime] = useState('');
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
   useEffect(() => {
     fetchInitialData();
+    // Live ticking timer every second for real-time elapsed time calculation
+    const timer = setInterval(() => setCurrentTime(Date.now()), 1000);
+    return () => clearInterval(timer);
   }, []);
 
   const fetchInitialData = async () => {
@@ -326,7 +330,7 @@ function AssemblyTrackingPage() {
   const getDurationText = (startedTime, completedTime) => {
     if (!startedTime) return null;
     const start = new Date(startedTime);
-    const end = completedTime ? new Date(completedTime) : new Date();
+    const end = completedTime ? new Date(completedTime) : new Date(currentTime);
     if (isNaN(start.getTime()) || isNaN(end.getTime())) return null;
     const diffSec = Math.max(0, Math.floor((end - start) / 1000));
     if (diffSec < 60) return `${diffSec}s`;

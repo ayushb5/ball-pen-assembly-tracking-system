@@ -1,7 +1,10 @@
 package com.ballpen.mes;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.TimeZone;
 
 /**
  * Main Entry Point for Ball Pen Assembly Line Production Tracking System (MES).
@@ -18,7 +21,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BallPenMesApplication {
 
+    @PostConstruct
+    public void init() {
+        // Enforce Indian Standard Time (IST / Asia/Kolkata / UTC+05:30)
+        // Ensures cloud containers (e.g. Railway, Docker, AWS) running in UTC
+        // execute all business logic, timestamps, and database operations in IST.
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
+    }
+
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
         SpringApplication.run(BallPenMesApplication.class, args);
     }
 }
